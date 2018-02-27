@@ -9,25 +9,19 @@ class BaseAppService implements IBaseAppService {
     protected $entityRepository;
     protected $errors;
 
-    public function getAll($relations = [], $has = false, $order = null, $direction = null) {
-        return $this->entityRepository->getAll($expression = '*', $relations, $has, $order, $direction);
+    public function getAll($relations = [], $order = null, $direction = null) {
+        return $this->entityRepository->with($relations)->orderBy('id', 'asc')->get();
     }
 
     public function getById($id, $relations = []) {
-        return $this->entityRepository->find($id, $columns = ['*'], $relations);
+        return $this->entityRepository->with($relations)->find($id);
     }
 
-    public function deleteById($id) {
-        return $this->entityRepository->delete($id);
-    }
-
-    public function setErrors($errs)
-    {
+    public function setErrors($errs) {
         $this->errors = $errs;
     }
 
-    public function getErrors()
-    {
+    public function getErrors() {
         return $this->errors;
     }
 }
