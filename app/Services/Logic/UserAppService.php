@@ -13,19 +13,17 @@ class UserAppService extends BaseAppService implements IUserAppService {
 
     protected $entityRepository;
 
-    public function __construct(IUserRepository $userRepository)
-    {
+    public function __construct(IUserRepository $userRepository) {
         $this->entityRepository = $userRepository;
     }
 
-    public function validator(array $data, $id = 0)
-    {
+    public function validator(array $data, $id = 0) {
         $rules = [
-            'name'     => 'required|string',
+            'name' => 'required|string',
             'password' => 'required|min:6',
         ];
 
-        if($id !== 0) {
+        if ($id !== 0) {
             return Validator::make($data, $rules);
         } else {
             $rules['email'] = 'email|max:255|unique:users,email';
@@ -35,7 +33,7 @@ class UserAppService extends BaseAppService implements IUserAppService {
     }
 
     public function save(array $data) {
-        if(isset($data['id']) && $data['id'] != 0) {
+        if (isset($data['id']) && $data['id'] != 0) {
             return $this->update($data);
         } else {
             return $this->create($data);
@@ -54,7 +52,7 @@ class UserAppService extends BaseAppService implements IUserAppService {
         $user->email = $data['email'];
         $user->password = bcrypt($data['password']);
 
-        $transactionResult = DB::transaction(function () use ($user, $data)  {
+        $transactionResult = DB::transaction(function () use ($user, $data) {
             $user = $this->entityRepository->create($user->getAttributes());
             $this->entityRepository->sync($user->id, 'profiles', $data['profiles']);
             return $user;
@@ -70,11 +68,11 @@ class UserAppService extends BaseAppService implements IUserAppService {
             return;
         }
 
-        $user  = new User();
+        $user = new User();
         $user->name = $data['name'];
         $user->password = bcrypt($data['password']);
 
-        $transactionResult = DB::transaction(function () use ($user, $data)  {
+        $transactionResult = DB::transaction(function () use ($user, $data) {
             $user = $this->entityRepository->update($data['id'], $user->getAttributes());
             $this->entityRepository->sync($user->id, 'profiles', $data['profiles']);
             return $user;
@@ -83,16 +81,15 @@ class UserAppService extends BaseAppService implements IUserAppService {
         return $transactionResult;
     }
 
-    public function delete(int $userId)
-    {
+    public function delete(int $userId) {
         $user = $this->entityRepository->find($userId);
 
-        if(! $user) {
+        if (!$user) {
             $this->setErrors(['error' => 'user_not_found']);
             return;
         }
 
-        if($this->entityRepository->delete($userId)) {
+        if ($this->entityRepository->delete($userId)) {
             return true;
         } else {
             $this->setErrors(['error' => 'can_delete_user']);

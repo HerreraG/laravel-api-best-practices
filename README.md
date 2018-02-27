@@ -31,7 +31,7 @@ There is still much to improve :)
  **POST api/login**
  ```
  {
-  "email": "lawrence.fay@example.org",
+  "email": "gonzah@helloworld.com",
   "password": 123456,
  }
   ```
@@ -54,7 +54,7 @@ There is still much to improve :)
  **POST api/users** Update a user
  ```
 {
-  "id": 1
+  "id": 1,
   "name": "Eric McLaughlin",
   "password": 123456,  
   "profiles": [1, 2]

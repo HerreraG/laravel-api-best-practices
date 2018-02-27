@@ -15,19 +15,13 @@ class UsersTableSeeder extends Seeder
         factory(\App\Entities\User::class)->create([
             'name' => 'Gonzalo',
             'email' => 'gonzah@helloworld.com',
-            'password' => bcrypt('11235813'),
+            'password' => bcrypt('123456'),
             'active' => 1,
             'remember_token' => str_random(10),
         ]);
 
-        factory(\App\Entities\User::class, 3)->create([            
-            'password' => bcrypt('11235813'),
-            'active' => 1,
-            'remember_token' => str_random(10),
-        ]);
-
-        factory(\App\Entities\User::class, 3)->create([            
-            'password' => bcrypt('11235813'),
+        factory(\App\Entities\User::class, 6)->create([
+            'password' => bcrypt('123456'),
             'active' => 1,
             'remember_token' => str_random(10),
         ]);
