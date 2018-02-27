@@ -26,11 +26,6 @@ $api->version(config('api.version'), ['namespace' => 'App\Http\Controllers\Api']
         echo 'hello';
     });
 
-    $api->get('manager', function () {
-        $user = User::findOrFail(2)->manager()->with('sellers', 'user')->sellers()->first();
-        return $user;
-    });
-
     $api->group(['namespace' => 'Auth'], function ($api) {
         $api->post('login', 'AuthController@login')->name('auth.login');
         $api->get('logout', 'AuthController@logout')->name('auth.logout');
